@@ -34,14 +34,24 @@
             <groupId>com.javarush</groupId>
             <artifactId>desktop-game-engine</artifactId>
             <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/desktop-game-engine.jar</systemPath>
         </dependency>
     </dependencies>
 
+
     <build>
+        <resources>
+            <resource>
+                <directory>${project.build.directory}/dependency/</directory>
+                <targetPath>lib</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <!-- Usual compilation -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -67,13 +77,13 @@
                 <version>2.4</version>
                 <configuration>
                     <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>your.main.Class</mainClass>
-                        </manifest>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                        <mainClass>org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader</mainClass>
+                    </manifest>
                         <manifestEntries>
-                            <Class-Path>../conf/</Class-Path>
+                            <Rsrc-Main-Class>com.javarush.games.racer.RacerGame</Rsrc-Main-Class>
+                            <Class-Path>./</Class-Path>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -85,8 +95,9 @@
                 <version>3.6.0</version>
                 <configuration>
                     <outputDirectory>
-                        ${project.build.directory}/lib/
+                        ${project.build.directory}/dependency/
                     </outputDirectory>
+                    <includeScope>compile</includeScope>
                 </configuration>
                 <executions>
                     <execution>
@@ -111,5 +122,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
